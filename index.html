@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZIPMASTER – Compress and extract ZIP files in your browser</title>
+<meta name="description" content="Create and open ZIP archives privately. Files never leave your device.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="ZIPMASTER home"><span class="zip-mark" aria-hidden="true"></span>ZIPMASTER</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#compress">Compress</a><a href="#extract">Extract</a><a href="#privacy">Privacy</a>
+    </nav>
+    <button id="themeBtn" class="icon-btn" type="button" aria-label="Switch to dark theme">◐</button>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero wrap" id="top">
+  <h1>Zip it. Unzip it.<br>Nothing leaves this tab.</h1>
+  <p>Compress files into a ZIP or open one you already have. Everything runs in your browser, with no upload and no account.</p>
+</section>
+
+<section class="wrap tabs-wrap">
+  <div class="tabs" role="tablist" aria-label="Mode">
+    <button role="tab" id="tab-compress" aria-selected="true" aria-controls="compress" class="tab">Compress files</button>
+    <button role="tab" id="tab-extract" aria-selected="false" aria-controls="extract" class="tab" tabindex="-1">Extract ZIP</button>
+  </div>
+
+  <!-- COMPRESS -->
+  <div class="panel" id="compress" role="tabpanel" aria-labelledby="tab-compress">
+    <label class="drop" id="drop1" tabindex="0" for="fileIn">
+      <span class="drop-title">Drop files here</span>
+      <span class="drop-sub">or <u>browse your device</u>. Multiple files are fine.</span>
+      <input id="fileIn" type="file" multiple hidden>
+    </label>
+
+    <div class="list-head">
+      <h2>Selected files <span class="count" id="count">0</span></h2>
+      <button class="btn ghost" id="clearBtn" type="button" disabled>Clear all</button>
+    </div>
+    <ul class="files" id="fileList" aria-live="polite"></ul>
+    <div class="empty" id="empty1">No files yet. Add some above to build an archive.</div>
+
+    <div class="opts">
+      <div class="field">
+        <label for="zipName">Archive name</label>
+        <div class="suffix"><input id="zipName" type="text" value="archive" maxlength="80" autocomplete="off"><span>.zip</span></div>
+      </div>
+      <div class="field">
+        <label for="level">Compression level: <b id="levelOut">6</b></label>
+        <input id="level" type="range" min="1" max="9" value="6">
+        <div class="hint"><span>1 Fastest</span><span>9 Smallest</span></div>
+      </div>
+    </div>
+
+    <div class="progress" id="prog1" hidden>
+      <div class="bar"><i id="bar1"></i></div><span id="pct1">0%</span>
+    </div>
+    <div class="stats" id="stats" hidden>
+      <div><small>Original</small><b id="sOrig">–</b></div>
+      <div><small>Compressed</small><b id="sComp">–</b></div>
+      <div><small id="sLbl">Saved</small><b id="sPct">–</b></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="zipBtn" type="button" disabled>Create ZIP</button>
+      <a class="btn accent" id="dlZip" hidden>Download ZIP</a>
+    </div>
+  </div>
+
+  <!-- EXTRACT -->
+  <div class="panel" id="extract" role="tabpanel" aria-labelledby="tab-extract" hidden>
+    <label class="drop" id="drop2" tabindex="0" for="zipIn">
+      <span class="drop-title">Drop a ZIP archive here</span>
+      <span class="drop-sub">or <u>choose a .zip file</u> to see what is inside.</span>
+      <input id="zipIn" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
+    </label>
+    <div class="progress" id="prog2" hidden><div class="bar"><i id="bar2"></i></div><span id="pct2">0%</span></div>
+    <div class="list-head" id="exHead" hidden>
+      <h2 id="exTitle">Archive contents</h2>
+      <div class="row"><button class="btn ghost" id="resetEx" type="button">Reset</button><button class="btn primary" id="allBtn" type="button">Extract all</button></div>
+    </div>
+    <ul class="files" id="exList"></ul>
+    <div class="empty" id="empty2">Open a ZIP to list its files. Nothing is saved until you choose to download.</div>
+  </div>
+</section>
+
+<section class="wrap privacy" id="privacy">
+  <h2>Your files stay on your device</h2>
+  <p>ZIPMASTER reads and builds archives with JavaScript inside your browser. No file is sent to a server, and closing the tab clears everything. Archive entries with unsafe paths, such as <code>../</code> or absolute locations, are renamed or skipped before extraction.</p>
+</section>
+</main>
+
+<footer class="footer"><div class="wrap">© <span id="yr"></span> ZIPMASTER. Built with <a href="https://stuk.github.io/jszip/" rel="noopener">JSZip</a>. Runs fully offline once loaded.</div></footer>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
